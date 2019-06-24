@@ -13,19 +13,6 @@
 					"secureInput": false
 				},
 				"typeProperties": {
-					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSetting",
-							"recursive": true,
-							"wildcardFolderPath": "*.*",
-							"wildcardFileName": "*.*",
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSetting"
-						}
-					},
 					"sink": {
 						"type": "AzureSqlSink"
 					},
@@ -66,12 +53,6 @@
 						]
 					}
 				},
-				"inputs": [
-					{
-						"referenceName": "DelimitedText1",
-						"type": "DatasetReference"
-					}
-				],
 				"outputs": [
 					{
 						"referenceName": "AzureSqlTable1",
