@@ -23,7 +23,7 @@
 			}
 		],
 		"typeProperties": {
-			"tableName": "[dbo].[EMPLOYEE]"
+			"tableName": "[dbo].[Employee]"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"

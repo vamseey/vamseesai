@@ -37,7 +37,7 @@
 									"name": "Sno"
 								},
 								"sink": {
-									"name": "ID",
+									"name": "SNO",
 									"type": "Int32"
 								}
 							},
@@ -46,16 +46,17 @@
 									"name": "Sname"
 								},
 								"sink": {
-									"name": "Sname",
+									"name": "SNAME",
 									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "Salary"
+									"name": "Salary",
+									"type": "String"
 								},
 								"sink": {
-									"name": "salary",
+									"name": "Salary",
 									"type": "Int32"
 								}
 							}

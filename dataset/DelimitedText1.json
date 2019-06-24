@@ -9,7 +9,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "Emptest.csv",
 				"container": "csvcontainer"
 			},
 			"columnDelimiter": ",",
