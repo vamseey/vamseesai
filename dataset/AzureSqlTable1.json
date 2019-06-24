@@ -8,16 +8,16 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "ID",
+				"name": "SNO",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "Sname",
+				"name": "SNAME",
 				"type": "varchar"
 			},
 			{
-				"name": "salary",
+				"name": "Salary",
 				"type": "int",
 				"precision": 10
 			}
