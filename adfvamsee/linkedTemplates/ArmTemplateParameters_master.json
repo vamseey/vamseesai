@@ -11,6 +11,9 @@
 		"AzureSqlDatabase1_connectionString": {
 			"value": ""
 		},
+		"csvcontainer_connectionString": {
+			"value": ""
+		},
 		"containerUri": {
 			"value": ""
 		},

@@ -14,6 +14,10 @@
 		"AzureSqlDatabase1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
+		"csvcontainer_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'csvcontainer'"
 		}
 	},
 	"variables": {
@@ -47,6 +51,19 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/csvcontainer')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('csvcontainer_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -59,16 +76,16 @@
 				"type": "AzureSqlTable",
 				"schema": [
 					{
-						"name": "ID",
+						"name": "SNO",
 						"type": "int",
 						"precision": 10
 					},
 					{
-						"name": "Sname",
+						"name": "SNAME",
 						"type": "varchar"
 					},
 					{
-						"name": "salary",
+						"name": "Salary",
 						"type": "int",
 						"precision": 10
 					}
@@ -82,12 +99,12 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
+			"name": "[concat(parameters('factoryName'), '/csvin')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1csv",
+					"referenceName": "csvcontainer",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -95,7 +112,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "Employeetest.csv",
 						"container": "csvcontainer"
 					},
 					"columnDelimiter": ",",
@@ -105,11 +121,11 @@
 				},
 				"schema": [
 					{
-						"name": "Sno",
+						"name": "SNO",
 						"type": "String"
 					},
 					{
-						"name": "Sname",
+						"name": "SNAME",
 						"type": "String"
 					},
 					{
@@ -119,7 +135,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1csv')]"
+				"[concat(variables('factoryId'), '/linkedServices/csvcontainer')]"
 			]
 		},
 		{
@@ -129,7 +145,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy Data1",
+						"name": "csvtoSql",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -146,8 +162,7 @@
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSetting",
 									"recursive": true,
-									"wildcardFileName": "*.*",
-									"enablePartitionDiscovery": false
+									"wildcardFileName": "*.*"
 								},
 								"formatSettings": {
 									"type": "DelimitedTextReadSetting"
@@ -162,8 +177,8 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "Sno",
-											"type": "Int32"
+											"name": "SNO",
+											"type": "String"
 										},
 										"sink": {
 											"name": "SNO",
@@ -172,7 +187,7 @@
 									},
 									{
 										"source": {
-											"name": "Sname",
+											"name": "SNAME",
 											"type": "String"
 										},
 										"sink": {
@@ -195,7 +210,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "DelimitedText1",
+								"referenceName": "csvin",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -212,7 +227,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]",
+				"[concat(variables('factoryId'), '/datasets/csvin')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
 			]
 		}
