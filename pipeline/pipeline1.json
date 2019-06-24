@@ -34,7 +34,8 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Sno"
+									"name": "Sno",
+									"type": "Int32"
 								},
 								"sink": {
 									"name": "SNO",
@@ -43,7 +44,8 @@
 							},
 							{
 								"source": {
-									"name": "Sname"
+									"name": "Sname",
+									"type": "String"
 								},
 								"sink": {
 									"name": "SNAME",
