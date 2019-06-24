@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy Data1",
+				"name": "csvtoSql",
 				"type": "Copy",
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -18,8 +18,7 @@
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSetting",
 							"recursive": true,
-							"wildcardFolderPath": "*.*",
-							"enablePartitionDiscovery": false
+							"wildcardFileName": "*.*"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextReadSetting"
@@ -34,8 +33,8 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Sno",
-									"type": "Int32"
+									"name": "SNO",
+									"type": "String"
 								},
 								"sink": {
 									"name": "SNO",
@@ -44,7 +43,7 @@
 							},
 							{
 								"source": {
-									"name": "Sname",
+									"name": "SNAME",
 									"type": "String"
 								},
 								"sink": {
