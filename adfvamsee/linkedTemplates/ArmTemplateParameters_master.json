@@ -11,6 +11,12 @@
 		"AzureSqlDatabase1_connectionString": {
 			"value": ""
 		},
+		"AzureSqlDatabase2_connectionString": {
+			"value": ""
+		},
+		"csvblobstorage_connectionString": {
+			"value": ""
+		},
 		"csvcontainer_connectionString": {
 			"value": ""
 		},
