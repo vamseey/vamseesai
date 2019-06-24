@@ -2,13 +2,14 @@
 	"name": "csvin",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "csvcontainer",
+			"referenceName": "csvblobstorage",
 			"type": "LinkedServiceReference"
 		},
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "Employeetest.csv",
 				"container": "csvcontainer"
 			},
 			"columnDelimiter": ",",
@@ -26,7 +27,7 @@
 				"type": "String"
 			},
 			{
-				"name": "Salary",
+				"name": "SALARY",
 				"type": "String"
 			}
 		]
