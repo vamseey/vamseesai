@@ -1,0 +1,28 @@
+{
+	"name": "AzureSqlTablecustomer",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldatabaselc",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Name",
+				"type": "varchar"
+			},
+			{
+				"name": "Address",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"tableName": "[dbo].[Customer]"
+		}
+	}
+}
