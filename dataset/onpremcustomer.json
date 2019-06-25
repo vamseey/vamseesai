@@ -1,0 +1,28 @@
+{
+	"name": "onpremcustomer",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "onpremsqlserver",
+			"type": "LinkedServiceReference"
+		},
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Name",
+				"type": "varchar"
+			},
+			{
+				"name": "Address",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"tableName": "[dbo].[Customer]"
+		}
+	}
+}
