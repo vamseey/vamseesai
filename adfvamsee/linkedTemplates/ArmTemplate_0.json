@@ -7,14 +7,6 @@
 			"metadata": "Data Factory Name",
 			"defaultValue": "adfvamsee"
 		},
-		"AzureBlobStorage1csv_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1csv'"
-		},
-		"AzureSqlDatabase1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
-		},
 		"AzureSqlDatabase2_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase2'"
@@ -23,41 +15,19 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'csvblobstorage'"
 		},
-		"csvcontainer_connectionString": {
+		"csvlc_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'csvcontainer'"
+			"metadata": "Secure string for 'connectionString' of 'csvlc'"
+		},
+		"sqldatabaselc_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'sqldatabaselc'"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1csv')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage1csv_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase2')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -85,25 +55,38 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/csvcontainer')]",
+			"name": "[concat(parameters('factoryName'), '/csvlc')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "AzureBlobStorage",
 				"typeProperties": {
-					"connectionString": "[parameters('csvcontainer_connectionString')]"
+					"connectionString": "[parameters('csvlc_connectionString')]"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/csvin')]",
+			"name": "[concat(parameters('factoryName'), '/sqldatabaselc')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('sqldatabaselc_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "csvblobstorage",
+					"referenceName": "csvlc",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -129,22 +112,22 @@
 						"type": "String"
 					},
 					{
-						"name": "SALARY",
+						"name": "Salary",
 						"type": "String"
 					}
 				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/csvblobstorage')]"
+				"[concat(variables('factoryId'), '/linkedServices/csvlc')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/sqldatabse')]",
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase2",
+					"referenceName": "sqldatabaselc",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -160,114 +143,21 @@
 						"type": "varchar"
 					},
 					{
-						"name": "SALARY",
+						"name": "Salary",
 						"type": "int",
 						"precision": 10
 					}
 				],
 				"typeProperties": {
-					"tableName": "[[dbo].[EMPLOYEE]"
+					"tableName": "[[dbo].[Employee]"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase2')]"
+				"[concat(variables('factoryId'), '/linkedServices/sqldatabaselc')]"
 			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "csvtoSql",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSetting",
-									"recursive": true,
-									"wildcardFileName": "*.*"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSetting"
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "SNO",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SNO",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SNAME",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SNAME",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Salary",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Salary",
-											"type": "Int32"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "csvin",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "sqldatabse",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/csvin')]",
-				"[concat(variables('factoryId'), '/datasets/sqldatabse')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -326,11 +216,11 @@
 									},
 									{
 										"source": {
-											"name": "SALARY",
+											"name": "Salary",
 											"type": "String"
 										},
 										"sink": {
-											"name": "SALARY",
+											"name": "Salary",
 											"type": "Int32"
 										}
 									}
@@ -339,14 +229,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "csvin",
+								"referenceName": "DelimitedText1",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "sqldatabse",
+								"referenceName": "AzureSqlTable1",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -356,8 +246,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/csvin')]",
-				"[concat(variables('factoryId'), '/datasets/sqldatabse')]"
+				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
 			]
 		}
 	]

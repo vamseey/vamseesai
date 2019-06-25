@@ -7,14 +7,6 @@
 			"metadata": "Data Factory Name",
 			"defaultValue": "adfvamsee"
 		},
-		"AzureBlobStorage1csv_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1csv'"
-		},
-		"AzureSqlDatabase1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
-		},
 		"AzureSqlDatabase2_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase2'"
@@ -23,9 +15,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'csvblobstorage'"
 		},
-		"csvcontainer_connectionString": {
+		"csvlc_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'csvcontainer'"
+			"metadata": "Secure string for 'connectionString' of 'csvlc'"
+		},
+		"sqldatabaselc_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'sqldatabaselc'"
 		},
 		"containerUri": {
 			"type": "string",
@@ -54,20 +50,17 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzureBlobStorage1csv_connectionString": {
-						"value": "[parameters('AzureBlobStorage1csv_connectionString')]"
-					},
-					"AzureSqlDatabase1_connectionString": {
-						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
-					},
 					"AzureSqlDatabase2_connectionString": {
 						"value": "[parameters('AzureSqlDatabase2_connectionString')]"
 					},
 					"csvblobstorage_connectionString": {
 						"value": "[parameters('csvblobstorage_connectionString')]"
 					},
-					"csvcontainer_connectionString": {
-						"value": "[parameters('csvcontainer_connectionString')]"
+					"csvlc_connectionString": {
+						"value": "[parameters('csvlc_connectionString')]"
+					},
+					"sqldatabaselc_connectionString": {
+						"value": "[parameters('sqldatabaselc_connectionString')]"
 					}
 				}
 			},
