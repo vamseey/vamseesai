@@ -17,6 +17,9 @@
 		"sqldatabaselc_connectionString": {
 			"value": ""
 		},
+		"onpremsqlserver_connectionString": {
+			"value": ""
+		},
 		"containerUri": {
 			"value": ""
 		},

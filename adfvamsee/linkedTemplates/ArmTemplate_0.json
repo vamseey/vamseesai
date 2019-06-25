@@ -22,6 +22,10 @@
 		"sqldatabaselc_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'sqldatabaselc'"
+		},
+		"onpremsqlserver_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'onpremsqlserver'"
 		}
 	},
 	"variables": {
@@ -81,6 +85,51 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/onpremir')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sqldatabaselc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SNO",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SNAME",
+						"type": "varchar"
+					},
+					{
+						"name": "Salary",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"tableName": "[[dbo].[Employee]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sqldatabaselc')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -122,7 +171,26 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
+			"name": "[concat(parameters('factoryName'), '/onpremsqlserver')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('onpremsqlserver_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "onpremir",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/onpremir')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTablecustomer')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -134,22 +202,21 @@
 				"type": "AzureSqlTable",
 				"schema": [
 					{
-						"name": "SNO",
+						"name": "ID",
 						"type": "int",
 						"precision": 10
 					},
 					{
-						"name": "SNAME",
+						"name": "Name",
 						"type": "varchar"
 					},
 					{
-						"name": "Salary",
-						"type": "int",
-						"precision": 10
+						"name": "Address",
+						"type": "varchar"
 					}
 				],
 				"typeProperties": {
-					"tableName": "[[dbo].[Employee]"
+					"tableName": "[[dbo].[Customer]"
 				}
 			},
 			"dependsOn": [
@@ -248,6 +315,125 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/onpremcustomer')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "onpremsqlserver",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Address",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "[[dbo].[Customer]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/onpremsqlserver')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy Data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Address",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Address",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "onpremcustomer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTablecustomer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/onpremcustomer')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTablecustomer')]"
 			]
 		}
 	]
