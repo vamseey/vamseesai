@@ -1,0 +1,29 @@
+{
+	"name": "AzureSqlDWTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDWEmployee",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "SNO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SNAME",
+				"type": "varchar"
+			},
+			{
+				"name": "SALARY",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"tableName": "[dbo].[EMPLOYEE]"
+		}
+	}
+}
