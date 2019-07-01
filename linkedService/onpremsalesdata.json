@@ -1,0 +1,16 @@
+{
+	"name": "onpremsalesdata",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=DESKTOP-7349QR1;initial catalog=AdventureWorksDW2017;user id=sa",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJhMTU5YTNkNS1hZmMyLTQ5NDktYTc0NC03MGMyYjIwODIyM2MiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "onpremir",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
