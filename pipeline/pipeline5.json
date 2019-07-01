@@ -1,6 +1,307 @@
 {
 	"name": "pipeline5",
 	"properties": {
+		"activities": [
+			{
+				"name": "Copy Data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource"
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ProductKey",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ProductKey",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "OrderDateKey",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "OrderDateKey",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DueDateKey",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "DueDateKey",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "ShipDateKey",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ShipDateKey",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "CustomerKey",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CustomerKey",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "PromotionKey",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "PromotionKey",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "CurrencyKey",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CurrencyKey",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SalesTerritoryKey",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "SalesTerritoryKey",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SalesOrderNumber",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SalesOrderNumber",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "SalesOrderLineNumber",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "SalesOrderLineNumber",
+									"type": "Byte"
+								}
+							},
+							{
+								"source": {
+									"name": "RevisionNumber",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "RevisionNumber",
+									"type": "Byte"
+								}
+							},
+							{
+								"source": {
+									"name": "OrderQuantity",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "OrderQuantity",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"name": "UnitPrice",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "UnitPrice",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "ExtendedAmount",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "ExtendedAmount",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "UnitPriceDiscountPct",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "UnitPriceDiscountPct",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"name": "DiscountAmount",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "DiscountAmount",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"name": "ProductStandardCost",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "ProductStandardCost",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "TotalProductCost",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "TotalProductCost",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "SalesAmount",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "SalesAmount",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "TaxAmt",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "TaxAmt",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "Freight",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "Freight",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "CarrierTrackingNumber",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CarrierTrackingNumber",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CustomerPONumber",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CustomerPONumber",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "OrderDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "OrderDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DueDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DueDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "ShipDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "ShipDate",
+									"type": "DateTime"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "onpremsales",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Azuresales",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
 		"annotations": []
 	}
 }
