@@ -5,7 +5,13 @@
 		"factoryName": {
 			"value": "adfvamsee"
 		},
+		"AzureSqlDWEmployee_connectionString": {
+			"value": ""
+		},
 		"AzureSqlDatabase2_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabaseemployee_connectionString": {
 			"value": ""
 		},
 		"csvblobstorage_connectionString": {
@@ -14,10 +20,16 @@
 		"csvlc_connectionString": {
 			"value": ""
 		},
+		"onpremsqlserver_connectionString": {
+			"value": ""
+		},
 		"sqldatabaselc_connectionString": {
 			"value": ""
 		},
-		"onpremsqlserver_connectionString": {
+		"onpremsalesdata_connectionString": {
+			"value": ""
+		},
+		"Azurecustomersales_connectionString": {
 			"value": ""
 		}
 	}

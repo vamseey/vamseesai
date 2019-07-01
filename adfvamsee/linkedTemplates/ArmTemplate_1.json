@@ -1,0 +1,681 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory Name",
+			"defaultValue": "adfvamsee"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/onpremsales')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "onpremsalesdata",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "ProductKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "OrderDateKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DueDateKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipDateKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CustomerKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PromotionKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CurrencyKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesTerritoryKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalesOrderLineNumber",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "OrderQuantity",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "UnitPrice",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "ExtendedAmount",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "UnitPriceDiscountPct",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "DiscountAmount",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "ProductStandardCost",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TotalProductCost",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "SalesAmount",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TaxAmt",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Freight",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "CarrierTrackingNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CustomerPONumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OrderDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "DueDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ShipDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"tableName": "[[dbo].[FactInternetSales]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy Data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Address",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Address",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "onpremcustomer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTablecustomer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline5')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy Data1",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "MaxDate",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "Select * from dbo.FactInternetSales where OrderDate > @'{activity('MaxDate').output.firstrow.MaxDate}'"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ProductKey",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ProductKey",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "OrderDateKey",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "OrderDateKey",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "DueDateKey",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "DueDateKey",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "ShipDateKey",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ShipDateKey",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "CustomerKey",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "CustomerKey",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "PromotionKey",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "PromotionKey",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "CurrencyKey",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "CurrencyKey",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SalesTerritoryKey",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "SalesTerritoryKey",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SalesOrderNumber",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SalesOrderNumber",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SalesOrderLineNumber",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "SalesOrderLineNumber",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "RevisionNumber",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "RevisionNumber",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "OrderQuantity",
+											"type": "Int16"
+										},
+										"sink": {
+											"name": "OrderQuantity",
+											"type": "Int16"
+										}
+									},
+									{
+										"source": {
+											"name": "UnitPrice",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "UnitPrice",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "ExtendedAmount",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "ExtendedAmount",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "UnitPriceDiscountPct",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "UnitPriceDiscountPct",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"name": "DiscountAmount",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "DiscountAmount",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"name": "ProductStandardCost",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "ProductStandardCost",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "TotalProductCost",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "TotalProductCost",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "SalesAmount",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "SalesAmount",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "TaxAmt",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "TaxAmt",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Freight",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Freight",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "CarrierTrackingNumber",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CarrierTrackingNumber",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CustomerPONumber",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CustomerPONumber",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "OrderDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "OrderDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "DueDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "DueDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "ShipDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "ShipDate",
+											"type": "DateTime"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "onpremsales",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Azuresales",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "MaxDate",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "Select Max(OrderDate) as MaxDate From FactInternetSales"
+							},
+							"dataset": {
+								"referenceName": "Azuresales",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/onpremsales')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline6')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "MaxDatelookup",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "Select Max(OrderDate) as MaxDate From dbo.FactInternetSales"
+							},
+							"dataset": {
+								"referenceName": "Azuresales",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "Copy Data1",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "MaxDatelookup",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "Select * from dbo.FactInternetSales \nwhere OrderDate > '@{activity('MaxDatelookup').output.firstrow.MaxDate}'"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "onpremsales",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Azuresales",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/onpremsales')]"
+			]
+		}
+	]
+}

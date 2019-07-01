@@ -6,227 +6,12 @@
 			"type": "string",
 			"metadata": "Data Factory Name",
 			"defaultValue": "adfvamsee"
-		},
-		"AzureSqlDWEmployee_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDWEmployee'"
-		},
-		"AzureSqlDatabase2_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase2'"
-		},
-		"AzureSqlDatabaseemployee_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseemployee'"
-		},
-		"csvblobstorage_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'csvblobstorage'"
-		},
-		"csvlc_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'csvlc'"
-		},
-		"onpremsqlserver_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'onpremsqlserver'"
-		},
-		"sqldatabaselc_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'sqldatabaselc'"
-		},
-		"onpremsalesdata_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'onpremsalesdata'"
-		},
-		"Azurecustomersales_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Azurecustomersales'"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy Data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSetting",
-									"recursive": true,
-									"wildcardFileName": "*.*",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSetting"
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "SNO",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SNO",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SNAME",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SNAME",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Salary",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Salary",
-											"type": "Int32"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DelimitedText1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureSqlTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy Data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "ID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "ID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "Name",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Address",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Address",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "onpremcustomer",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureSqlTablecustomer",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/onpremcustomer')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTablecustomer')]"
-			]
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pipeline3')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -301,15 +86,13 @@
 						"inputs": [
 							{
 								"referenceName": "DelimitedText1",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "AzureSqlTableEmployee",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -317,7 +100,6 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTableEmployee')]"
 			]
 		},
@@ -387,15 +169,13 @@
 						"inputs": [
 							{
 								"referenceName": "AzureSqlTableEmployee",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "AzureSqlDWTable1",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -710,15 +490,13 @@
 						"inputs": [
 							{
 								"referenceName": "onpremsales",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "Azuresales",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -741,8 +519,7 @@
 							},
 							"dataset": {
 								"referenceName": "Azuresales",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						}
 					}
@@ -785,44 +562,7 @@
 					"tableName": "[[dbo].[EMPLOYEE]"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDWEmployee')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "sqldatabaselc",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "SNO",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SNAME",
-						"type": "varchar"
-					},
-					{
-						"name": "Salary",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"tableName": "[[dbo].[Employee]"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/sqldatabaselc')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTableEmployee')]",
@@ -853,256 +593,6 @@
 				],
 				"typeProperties": {
 					"tableName": "[[dbo].[EMPLOYEE]"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseemployee')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTablecustomer')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "sqldatabaselc",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Name",
-						"type": "varchar"
-					},
-					{
-						"name": "Address",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"tableName": "[[dbo].[Customer]"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/sqldatabaselc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "csvlc",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "Employeetest.csv",
-						"container": "csvcontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "SNO",
-						"type": "String"
-					},
-					{
-						"name": "SNAME",
-						"type": "String"
-					},
-					{
-						"name": "Salary",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/csvlc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/onpremcustomer')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "onpremsqlserver",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Name",
-						"type": "varchar"
-					},
-					{
-						"name": "Address",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"tableName": "[[dbo].[Customer]"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/onpremsqlserver')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDWEmployee')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDW",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDWEmployee_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabase2_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseemployee')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabaseemployee_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/csvblobstorage')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('csvblobstorage_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/csvlc')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('csvlc_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/onpremsqlserver')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('onpremsqlserver_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "onpremir",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/onpremir')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/sqldatabaselc')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('sqldatabaselc_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/onpremir')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/onpremsalesdata')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('onpremsalesdata_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "onpremir",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/onpremir')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Azurecustomersales')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('Azurecustomersales_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -1261,9 +751,7 @@
 					"tableName": "[[dbo].[FactInternetSales]"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/onpremsalesdata')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Azuresales')]",
@@ -1419,9 +907,7 @@
 					"tableName": "[[dbo].[FactInternetSales]"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Azurecustomersales')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pipeline6')]",
@@ -1448,8 +934,7 @@
 							},
 							"dataset": {
 								"referenceName": "Azuresales",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						}
 					},
@@ -1485,15 +970,13 @@
 						"inputs": [
 							{
 								"referenceName": "onpremsales",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "Azuresales",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
