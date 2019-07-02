@@ -24,7 +24,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "  Select MAX(OrderDate) as MaxDate from dbo.FactInternetSales"
+						"sqlReaderQuery": " Select * from FactInternetSales where OrderDate > '@{activity('Lookupmaxdate').output.firstRow.MaxDate}'"
 					},
 					"sink": {
 						"type": "AzureSqlSink"
@@ -324,7 +324,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlDWSource",
-						"sqlReaderQuery": " Select * from FactInternetSales where OrderDate > @{'activity('Lookupmaxdate').output.firstRow.MaxDate'}"
+						"sqlReaderQuery": "  Select MAX(OrderDate) as MaxDate from dbo.FactInternetSales"
 					},
 					"dataset": {
 						"referenceName": "AzureSqlDWTable1",
