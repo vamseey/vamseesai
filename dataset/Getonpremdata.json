@@ -1,0 +1,12 @@
+{
+	"name": "Getonpremdata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "onpremsalesdata",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
