@@ -323,11 +323,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlDWSource",
-						"sqlReaderQuery": "  Select MAX(OrderDate) as MaxDate from dbo.FactInternetSales"
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": " Select MAX(OrderDate) as MaxDate from dbo.FactInternetSales"
 					},
 					"dataset": {
-						"referenceName": "AzureSqlDWTable1",
+						"referenceName": "AzureSqlTablecustomer",
 						"type": "DatasetReference"
 					}
 				}
