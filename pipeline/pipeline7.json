@@ -5,7 +5,14 @@
 			{
 				"name": "Copy Data1",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lookupmaxdate",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -16,7 +23,8 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource"
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "  Select MAX(OrderDate) as MaxDate from dbo.FactInternetSales"
 					},
 					"sink": {
 						"type": "AzureSqlSink"
@@ -300,6 +308,29 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Lookupmaxdate",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": " Select * from FactInternetSales where OrderDate > @{'activity('Lookupmaxdate').output.firstRow.MaxDate'}"
+					},
+					"dataset": {
+						"referenceName": "AzureSqlDWTable1",
+						"type": "DatasetReference"
+					}
+				}
 			}
 		],
 		"annotations": []
