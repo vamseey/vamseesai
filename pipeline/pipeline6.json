@@ -18,10 +18,6 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": "Select Max(OrderDate) as MaxDate From dbo.FactInternetSales"
-					},
-					"dataset": {
-						"referenceName": "Azuresales",
-						"type": "DatasetReference"
 					}
 				}
 			},
@@ -47,7 +43,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "Select * from dbo.FactInternetSales \nwhere OrderDate > '@{activity('MaxDatelookup').output.firstrow.MaxDate}'"
+						"sqlReaderQuery": {
+							"value": "Select * from dbo.FactInternetSales \nwhere OrderDate > '@{activity('MaxDatelookup').output.firstrow.MaxDate}'",
+							"type": "Expression"
+						}
 					},
 					"sink": {
 						"type": "AzureSqlSink"
@@ -57,12 +56,6 @@
 				"inputs": [
 					{
 						"referenceName": "onpremsales",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "Azuresales",
 						"type": "DatasetReference"
 					}
 				]

@@ -5,6 +5,7 @@
 			{
 				"name": "Copy Data1",
 				"type": "Copy",
+				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -12,6 +13,7 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
+				"userProperties": [],
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource"
@@ -69,6 +71,7 @@
 					}
 				]
 			}
-		]
+		],
+		"annotations": []
 	}
 }
