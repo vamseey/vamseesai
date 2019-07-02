@@ -1,0 +1,6 @@
+{
+	"name": "AzureIRsales",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
