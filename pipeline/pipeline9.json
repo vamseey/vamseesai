@@ -1,9 +1,9 @@
 {
-	"name": "pipeline8",
+	"name": "pipeline9",
 	"properties": {
 		"activities": [
 			{
-				"name": "GetTablelist",
+				"name": "GetTableList",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -31,7 +31,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "GetTablelist",
+						"activity": "GetTableList",
 						"dependencyConditions": [
 							"Succeeded"
 						]
