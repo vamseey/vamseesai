@@ -1,0 +1,36 @@
+{
+	"name": "csvdata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Newcsvfile",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Employeetest.csv",
+				"container": "empcsv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "SNO",
+				"type": "String"
+			},
+			{
+				"name": "SNAME",
+				"type": "String"
+			},
+			{
+				"name": "SALARY",
+				"type": "String"
+			}
+		]
+	}
+}
