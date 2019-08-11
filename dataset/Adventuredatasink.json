@@ -7,6 +7,12 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlDWTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@item().Adventuretables",
+				"type": "Expression"
+			}
+		}
 	}
 }
