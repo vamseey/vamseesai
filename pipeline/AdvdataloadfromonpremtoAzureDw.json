@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "AdvLookup",
+				"name": "GetTableList",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -17,12 +17,13 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlDWSource",
-						"sqlReaderQuery": "Select Adventuretables from Adventuredata"
+						"sqlReaderQuery": "Select Tablename from Tablelist"
 					},
 					"dataset": {
 						"referenceName": "Adventuretableset",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
@@ -30,7 +31,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "AdvLookup",
+						"activity": "GetTableList",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -39,13 +40,13 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('AdvLookup').output.value",
+						"value": "@activity('GetTableList').output.value",
 						"type": "Expression"
 					},
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Adv Copy Data",
+							"name": "Copy Data",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -60,18 +61,13 @@
 								"source": {
 									"type": "SqlServerSource",
 									"sqlReaderQuery": {
-										"value": "Select * from @{item().Adventuretables}",
+										"value": "Select * from @{item().Tablename}",
 										"type": "Expression"
 									}
 								},
 								"sink": {
 									"type": "SqlDWSink",
-									"allowPolyBase": true,
-									"polyBaseSettings": {
-										"rejectValue": 0,
-										"rejectType": "value",
-										"useTypeDefault": false
-									}
+									"allowPolyBase": false
 								},
 								"enableStaging": false
 							},
