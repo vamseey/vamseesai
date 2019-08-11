@@ -1,0 +1,21 @@
+{
+	"name": "Adventuretableset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureAdventureDestination",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "Adventuretables",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Adventuredata"
+		}
+	}
+}
