@@ -20,7 +20,7 @@
 						"sqlReaderQuery": "Select Tablename from Tablelist"
 					},
 					"dataset": {
-						"referenceName": "Adventuretableset",
+						"referenceName": "Adventuredatasink",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
@@ -67,12 +67,7 @@
 								},
 								"sink": {
 									"type": "SqlDWSink",
-									"allowPolyBase": true,
-									"polyBaseSettings": {
-										"rejectValue": 0,
-										"rejectType": "value",
-										"useTypeDefault": false
-									}
+									"allowPolyBase": false
 								},
 								"enableStaging": false
 							},
