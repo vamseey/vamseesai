@@ -2,7 +2,7 @@
 	"name": "Adventuretableset",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureAdventureDestination",
+			"referenceName": "AzureAdvtable",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
