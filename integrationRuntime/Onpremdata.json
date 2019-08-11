@@ -1,0 +1,6 @@
+{
+	"name": "Onpremdata",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
