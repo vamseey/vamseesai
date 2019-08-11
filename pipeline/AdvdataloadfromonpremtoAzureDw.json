@@ -20,7 +20,7 @@
 						"sqlReaderQuery": "Select Tablename from Tablelist"
 					},
 					"dataset": {
-						"referenceName": "Adventuredatasink",
+						"referenceName": "Adventuretableset",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
