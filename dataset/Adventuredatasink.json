@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": {
-				"value": "@item().Adventuretables",
+				"value": "@item().Tablename",
 				"type": "Expression"
 			}
 		}
