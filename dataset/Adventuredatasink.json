@@ -1,0 +1,12 @@
+{
+	"name": "Adventuredatasink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureAdventureDestination",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": []
+	}
+}
