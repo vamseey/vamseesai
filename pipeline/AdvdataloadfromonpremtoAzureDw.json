@@ -23,7 +23,7 @@
 						"referenceName": "Adventuretableset",
 						"type": "DatasetReference"
 					},
-					"firstRowOnly": true
+					"firstRowOnly": false
 				}
 			},
 			{
