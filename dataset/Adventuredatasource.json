@@ -1,0 +1,12 @@
+{
+	"name": "Adventuredatasource",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Adventureonpremsource",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
